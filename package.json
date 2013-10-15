@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/drdk/dr-grunt-svg-sprites.git"
+    "url": "git://github.com/rasmusfl0e/grunt-css-inliner.git"
   },
   "main": "Gruntfile.js",
   "keywords": [
