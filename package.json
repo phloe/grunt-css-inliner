@@ -1,0 +1,21 @@
+{
+  "name": "grunt-css-inliner",
+  "version": "0.1.0",
+  "description": "Grunt plugin to inline above-the-fold CSS in webpages",
+  "author": {
+    "name": "rasmusfl0e",
+    "email": "rasmusfl0e@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/drdk/dr-grunt-svg-sprites.git"
+  },
+  "main": "Gruntfile.js",
+  "keywords": [
+    "gruntplugin"
+  ],
+  "dependencies": {
+    "phantomjs": "~1.9.2-2",
+    "async": "~0.2.9"
+  }
+}
