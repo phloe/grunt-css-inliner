@@ -10,10 +10,11 @@ module.exports = function (grunt) {
 	grunt.registerTask("css-inliner", "", function () {
 		
 		var done = this.async(),
-			options = this.options({}),
-			inlineOptions = options.options || {},
+			options = this.options(),
+			files = grunt.config(this.name).files, 
+			inlineOptions = grunt.config(this.name).options || {},
 			_inlineOptions = [],
-			tasks = []; 
+			tasks = [];
 	
 		for (var key in inlineOptions) {
 			if (inlineOptions[key] === true) {
@@ -24,7 +25,7 @@ module.exports = function (grunt) {
 			}
 		}
 
-		tasks = options.files.map(function (file) {
+		tasks = files.map(function (file) {
 			return function (callback) {
 				inline(file, _inlineOptions, callback);
 			}
@@ -42,21 +43,24 @@ module.exports = function (grunt) {
 	});
 	
 	function inline (file, options, callback) {
-		var script = path.join(__dirname, "../lib/index.js"),
+		var script = path.join(__dirname, "../lib/dr-css-inliner/index.js"),
 			args = [phantomjs, script, file].concat(options).join(" ");
+		
+		console.log("Inlining CSS in " + file + "...");
 		
 		var pjs = exec(args, function (error, stdout, stderr) {
 			if (error) {
-				console.error("Error", error);
+				grunt.log.error("Error", error);
 			}
 			else if (stderr) {
-				console.error("Stderr", stderr);
+				grunt.log.error("Stderr", stderr);
 			}
 			else if (stdout) {
 				fs.writeFileSync(file, stdout);
 			}
 			callback(null);
 		});
+		
 	}
 	
 };
