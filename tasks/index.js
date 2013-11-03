@@ -4,6 +4,7 @@ module.exports = function (grunt) {
 	var fs = require("fs"),
 		path = require("path"),
 		exec = require("child_process").exec,
+		spawn = require("child_process").spawn,
 		async = require("async"),
 		phantomjs = require("phantomjs").path;
 	
@@ -13,7 +14,7 @@ module.exports = function (grunt) {
 			options = this.options(),
 			files = grunt.config(this.name).files, 
 			inlineOptions = grunt.config(this.name).options || {},
-			_inlineOptions = [],
+			_inlineOptions = [], value,
 			tasks = [];
 	
 		for (var key in inlineOptions) {
@@ -21,10 +22,28 @@ module.exports = function (grunt) {
 				_inlineOptions.push(key);
 			}
 			else {
-				_inlineOptions.push(key, inlineOptions[key]);
+				value = inlineOptions[key];
+				switch (key) {
+					case "-r":
+					case "--required-selectors":
+						if (value.indexOf(" ") > -1) {
+							value = JSON.stringify(value);
+						}
+						break;
+			
+					case "-s":
+					case "--strip-resources":
+						if (typeof value == "string") {
+							value = [value];
+						}
+						value = escapeReg(JSON.stringify(value).replace(/"/g, "\\\""));
+						break;
+					
+				}
+				_inlineOptions.push(key, value);
 			}
 		}
-
+		
 		tasks = files.map(function (file) {
 			return function (callback) {
 				inline(file, _inlineOptions, callback);
@@ -41,6 +60,10 @@ module.exports = function (grunt) {
 		});
 		
 	});
+	
+	function escapeReg (str){
+		return str.replace(/\\\\([.*+?=^!:${}()|[\]\/\\])/g, '\\\\\\\\$1');
+	};
 	
 	function inline (file, options, callback) {
 		var script = path.join(__dirname, "../lib/dr-css-inliner/index.js"),
