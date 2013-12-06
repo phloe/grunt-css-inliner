@@ -17,5 +17,6 @@
   "dependencies": {
     "phantomjs": "~1.9.2-2",
     "async": "~0.2.9"
-  }
+  },
+  "scripts":{"preinstall": "git submodule update -i -r"}
 }
