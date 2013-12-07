@@ -8,7 +8,7 @@ module.exports = function (grunt) {
 		async = require("async"),
 		phantomjs = require("phantomjs").path;
 	
-	grunt.registerTask("css-inliner", "", function () {
+	grunt.registerTask("css-inliner", "Inline above-the-fold CSS in webpages", function () {
 		
 		var done = this.async(),
 			options = this.options(),
@@ -47,8 +47,7 @@ module.exports = function (grunt) {
 		tasks = files.map(function (file) {
 			return function (callback) {
 				inline(file, _inlineOptions, callback);
-			}
-			
+			};
 		});
 		
 		async.series(tasks, function (err) {
