@@ -2,20 +2,20 @@
 
 module.exports = function (grunt) {
 	var fs = require("fs"),
-		path = require("path"),
-		exec = require("child_process").exec,
-		spawn = require("child_process").spawn,
-		async = require("async"),
-		phantomjs = require("phantomjs").path;
+	    path = require("path"),
+	    exec = require("child_process").exec,
+	    spawn = require("child_process").spawn,
+	    async = require("async"),
+	    phantomjs = require("phantomjs").path;
 	
 	grunt.registerTask("css-inliner", "Inline above-the-fold CSS in webpages", function () {
 		
 		var done = this.async(),
-			options = this.options(),
-			files = grunt.config(this.name).files, 
-			inlineOptions = grunt.config(this.name).options || {},
-			_inlineOptions = [], value,
-			tasks = [];
+		    options = this.options(),
+		    files = grunt.config(this.name).files, 
+		    inlineOptions = grunt.config(this.name).options || {},
+		    _inlineOptions = [], value,
+		    tasks = [];
 	
 		for (var key in inlineOptions) {
 			if (inlineOptions[key] === true) {
@@ -66,11 +66,11 @@ module.exports = function (grunt) {
 	
 	function inline (file, options, callback) {
 		var script = path.join(__dirname, "../lib/dr-css-inliner/index.js"),
-			args = [phantomjs, script, file].concat(options).join(" ");
+		    args = [phantomjs, script, file].concat(options).join(" ");
 		
 		console.log("Inlining CSS in " + file + "...");
 		
-		var pjs = exec(args, function (error, stdout, stderr) {
+		exec(args, function (error, stdout, stderr) {
 			if (error) {
 				grunt.log.error("Error", error);
 			}
