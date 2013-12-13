@@ -19,6 +19,6 @@
 		"async": "~0.2.9"
 	},
 	"scripts":{
-		"preinstall": "git clone git@github.com:drdk/dr-css-inliner.git ./lib/dr-css-inliner"
+		"postinstall": "git clone git@github.com:drdk/dr-css-inliner.git ./lib/dr-css-inliner"
 	}
 }
